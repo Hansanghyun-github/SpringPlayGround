@@ -13,14 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class YamlPropertyReaderTest {
     @Test
     void YamlReadTest() throws Exception {
-        // given
-        Enumeration<URL> resources = getClass().getClassLoader().getResources("application-local.yml");
-
-        YamlPropertyReader yamlPropertyReader =
-                new YamlPropertyReader(resources.nextElement().getPath());
-
         // when
-        Object property = yamlPropertyReader.getProperty("server.tomcat.max-connections");
+        Object property = LocalConfigFileUtils.getProperty("server.tomcat.max-connections");
 
         // then (have to check application-local.yml file's value)
         assertThat(property).isEqualTo(5);
