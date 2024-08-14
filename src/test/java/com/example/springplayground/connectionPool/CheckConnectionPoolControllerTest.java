@@ -1,6 +1,6 @@
 package com.example.springplayground.connectionPool;
 
-import com.example.springplayground.TestHttpUtils;
+import com.example.springplayground.util.TestHttpUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,7 +8,6 @@ import java.net.http.HttpResponse;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CheckConnectionPoolControllerTest {

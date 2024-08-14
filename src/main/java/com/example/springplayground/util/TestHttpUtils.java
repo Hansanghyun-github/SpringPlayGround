@@ -1,4 +1,4 @@
-package com.example.springplayground;
+package com.example.springplayground.util;
 
 import java.io.IOException;
 import java.net.URI;
