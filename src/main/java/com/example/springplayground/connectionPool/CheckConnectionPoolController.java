@@ -17,19 +17,12 @@ public class CheckConnectionPoolController {
 
     private AtomicInteger n = new AtomicInteger(0);
 
-    private ReentrantLock lock = new ReentrantLock();
-
     @GetMapping("/test")
     public void getConnectionPoolInfo() throws InterruptedException {
         int i = n.incrementAndGet();
         log.info("Connection pool test + " + i);
         Thread.sleep(5000);
         log.info("Connection pool test end - " + i);
-    }
-
-    @GetMapping("/test2")
-    public void getConnectionPoolInfo2() throws InterruptedException {
-        lock.unlock();
     }
 
 }
