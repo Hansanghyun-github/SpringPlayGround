@@ -3,5 +3,5 @@ server:
     accept-count: 1
     max-connections: 5
     threads:
-      max: 5
+      max: 2
       min-spare: 1

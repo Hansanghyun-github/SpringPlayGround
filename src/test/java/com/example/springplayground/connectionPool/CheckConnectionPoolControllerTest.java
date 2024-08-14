@@ -3,9 +3,12 @@ package com.example.springplayground.connectionPool;
 import com.example.springplayground.util.LocalConfigFileUtils;
 import com.example.springplayground.util.TestHttpUtils;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.net.http.HttpResponse;
+import java.nio.channels.ClosedChannelException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,36 +18,42 @@ class CheckConnectionPoolControllerTest {
     @Test
     void test() throws Exception {
         // before test, have to run SpringPlayGroundApplication
-
-        int expected = (int) LocalConfigFileUtils.getProperty("server.tomcat.max-connections") +
-                (int) LocalConfigFileUtils.getProperty("server.tomcat.accept-count");
-        assert expected > 0;
-
+        // given
         final var NUMBER_OF_THREAD = 10;
-        var threads = new Thread[NUMBER_OF_THREAD];
+        ExecutorService service = Executors.newFixedThreadPool(NUMBER_OF_THREAD);
+        Future<?>[] futures = new Future[NUMBER_OF_THREAD];
 
+        // when
         for (int i = 0; i < NUMBER_OF_THREAD; i++) {
-            threads[i] = new Thread(() -> incrementIfOk(TestHttpUtils.send("/test")));
+            futures[i] = service.submit(() -> incrementIfOk(TestHttpUtils.send("/test")));
+        }
+        for (int i = 0; i < NUMBER_OF_THREAD; i++) {
+            try {
+                futures[i].get();
+            } catch (Exception e) {
+                Throwable cause = e.getCause();
+                while(cause.getCause() != null && cause.getCause() != cause) {
+                    cause = cause.getCause();
+                }
+                assertThat(cause).isInstanceOf(ClosedChannelException.class);
+            }
         }
 
-        for (final var thread : threads) {
-            thread.start();
-        }
-
-        for (final var thread : threads) {
-            thread.join();
-        }
+        // then
+        int expected = getExpectedConnectionsCount();
         assertThat(count.intValue()).isEqualTo(Math.min(NUMBER_OF_THREAD, expected));
+        service.shutdown();
+    }
+
+    private static int getExpectedConnectionsCount() {
+        return (int) LocalConfigFileUtils.getProperty("server.tomcat.max-connections") +
+                (int) LocalConfigFileUtils.getProperty("server.tomcat.accept-count");
     }
 
     private static void incrementIfOk(final HttpResponse<String> response) {
         if (response.statusCode() == 200) {
             count.incrementAndGet();
         }
-    }
-
-    private static void printResponseCode(final HttpResponse<String> response) {
-        System.out.println(response.statusCode());
     }
 
 }
