@@ -14,8 +14,7 @@ spring:
     username: root
     password: ${mysql.password}
     hikari:
-      #maximum-pool-size: 1
-      maximum-pool-size: 2
+      maximum-pool-size: 1
       connection-timeout: 10000 # 10 seconds
 
 logging.level:

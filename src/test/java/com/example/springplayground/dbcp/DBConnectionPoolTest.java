@@ -1,25 +1,19 @@
 package com.example.springplayground.dbcp;
 
 import com.zaxxer.hikari.HikariDataSource;
-import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.sql.DataSource;
-
-import java.sql.SQLTimeoutException;
 import java.sql.SQLTransientConnectionException;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-@ActiveProfiles("test-dbcp")
+@ActiveProfiles("cp-size-1")
 class DBConnectionPoolTest {
-    @Autowired MemberRepository memberRepository;
     @Autowired
     HikariDataSource dataSource;
 
@@ -37,7 +31,5 @@ class DBConnectionPoolTest {
         // when // then
         assertThatThrownBy(() -> dataSource.getConnection())
                 .isInstanceOf(SQLTransientConnectionException.class);
-
     }
-
 }

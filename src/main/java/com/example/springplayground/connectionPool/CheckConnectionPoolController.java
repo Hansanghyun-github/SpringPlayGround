@@ -21,7 +21,7 @@ public class CheckConnectionPoolController {
     public void getConnectionPoolInfo() throws InterruptedException {
         int i = n.incrementAndGet();
         log.info("Connection pool test + " + i);
-        Thread.sleep(1000);
+        Thread.sleep(5000);
         log.info("Connection pool test end - " + i);
     }
 

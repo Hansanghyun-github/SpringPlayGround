@@ -6,17 +6,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Member {
+@ToString
+public class MemberAUTO {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
 
-    public Member(String name) {
+    public MemberAUTO(String name) {
         this.name = name;
     }
 }
