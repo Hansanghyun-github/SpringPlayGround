@@ -6,9 +6,19 @@
 #      max: 1
 #      min-spare: 1
 
+
 spring:
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/diary
+    username: root
+    password: ${mysql.password}
     hikari:
-      maximum-pool-size: 1
-      #minimum-idle: 5
+      #maximum-pool-size: 1
+      maximum-pool-size: 2
       connection-timeout: 10000 # 10 seconds
+
+logging.level:
+  org.hibernate:
+    SQL: debug
+    orm.jdbc.bind: trace
