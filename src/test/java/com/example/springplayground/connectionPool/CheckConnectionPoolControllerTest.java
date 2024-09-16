@@ -3,6 +3,7 @@ package com.example.springplayground.connectionPool;
 import com.example.springplayground.util.LocalConfigFileUtils;
 import com.example.springplayground.util.TestHttpUtils;
 import org.assertj.core.util.Throwables;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.net.http.HttpResponse;
@@ -19,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CheckConnectionPoolControllerTest {
     static AtomicInteger count = new AtomicInteger(0);
     @Test
+    @Disabled
     void test() throws Exception {
         // before test, have to run SpringPlayGroundApplication
         // given
