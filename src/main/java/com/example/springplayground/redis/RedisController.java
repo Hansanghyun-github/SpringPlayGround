@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RedisController {
     private final RedisService redisService;
+    private final CachingService cachingService;
 
     @GetMapping("/redis/save")
     public void save(
@@ -33,4 +34,23 @@ public class RedisController {
         }
         return redisService.getKeys(pattern).toString();
     }
+
+    @GetMapping("/cache/get")
+    public String getCache() {
+        log.info("getCache() called");
+        return cachingService.getString();
+    }
+
+    @GetMapping("/cache/key")
+    public String getCacheKey(@RequestParam("key") Integer key) {
+        log.info("getCacheKey() called");
+        return cachingService.getKey(key);
+    }
+
+    @GetMapping("/cache/object")
+    public Object getCacheObject(@RequestParam("name") String name, @RequestParam("age") int age) {
+        log.info("getCacheObject() called");
+        return cachingService.getObject(name, age);
+    }
+
 }
