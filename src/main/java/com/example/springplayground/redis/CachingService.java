@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class CachingService {
@@ -23,5 +25,11 @@ public class CachingService {
     public Object getObject(String name, int age) {
         log.info("getObject() called");
         return new SimpleObject(name, age);
+    }
+
+    @Cacheable(value = "objects")
+    public SimpleObjectList getObjects() {
+        log.info("getObjects() called");
+        return new SimpleObjectList(List.of(new SimpleObject("Alice", 20), new SimpleObject("Bob", 30)));
     }
 }

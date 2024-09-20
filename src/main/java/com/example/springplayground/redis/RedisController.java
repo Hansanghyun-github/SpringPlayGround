@@ -53,4 +53,10 @@ public class RedisController {
         return cachingService.getObject(name, age);
     }
 
+    @GetMapping("/cache/objects")
+    public Object getCacheObjects() {
+        log.info("getCacheObjects() called");
+        return cachingService.getObjects();
+    }
+
 }
