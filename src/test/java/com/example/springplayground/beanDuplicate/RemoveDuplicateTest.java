@@ -27,7 +27,7 @@ public class RemoveDuplicateTest {
     }
 
     @Test
-    void 스프링_빈은_2개_조회되서_실패한다() throws Exception {
+    void 스프링_빈이_2개_조회되서_실패한다() throws Exception {
         // when // then
         Assertions.assertThatThrownBy(() -> applicationContext.getBean(EmptyInterface.class))
                 .isInstanceOf(NoUniqueBeanDefinitionException.class);
