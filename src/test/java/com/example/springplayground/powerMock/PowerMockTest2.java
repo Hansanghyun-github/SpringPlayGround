@@ -33,4 +33,13 @@ public class PowerMockTest2 {
         Assertions.assertThat(LocalDate.now())
                 .isEqualTo(expected);
     }
+
+    @Test
+    void call_LocalDate_now_method_at_inner_method() throws Exception {
+        // given
+        TimePrint timePrint = new TimePrint();
+        
+        // when // then
+        timePrint.printTime();
+    }
 }
