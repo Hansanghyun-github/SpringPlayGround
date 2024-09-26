@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.mockStatic;
 
@@ -25,6 +26,13 @@ public class PowerMockTest2 {
     @AfterAll
     public static void tearDown() {
         mockLocalDate.close();
+    }
+    
+    @Test
+    void LocalDateTime_now_method_occurs_error_because_of_mocking_LocalDate() throws Exception {
+        // when // then
+        Assertions.assertThatThrownBy(() -> System.out.println(LocalDateTime.now()))
+                .isInstanceOf(NullPointerException.class);
     }
 
     @Test
