@@ -13,15 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmptyService {
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public void createEvent1(Integer data) {
+    public void createEvent(Integer data) {
         log.info("create event");
         applicationEventPublisher.publishEvent(new MyEvent1(data));
     }
 
-    public void createEvent2() throws InterruptedException {
-        log.info("create event2");
+    public void slowEvent() throws InterruptedException {
+        log.info("slow event: sleep 1s");
         Thread.sleep(1000);
         applicationEventPublisher.publishEvent(new MyEvent2());
+    }
+    public void errorEvent(Integer data) {
+        applicationEventPublisher.publishEvent(new MyEvent1(data));
+        throw new RuntimeException("error");
     }
 
 }

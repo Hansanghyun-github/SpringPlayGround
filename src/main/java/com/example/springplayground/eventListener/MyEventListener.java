@@ -11,12 +11,12 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class MyEventListener {
 
     @TransactionalEventListener
-    public void handleEvent1(MyEvent1 myEvent1) {
+    public void eventListenerMethod(MyEvent1 myEvent1) {
         log.info("event data: {}", myEvent1.getData());
     }
 
     @TransactionalEventListener
-    public void handleEvent2(MyEvent2 myEvent2) throws InterruptedException {
+    public void slowEventListenerMethod(MyEvent2 myEvent2) throws InterruptedException {
         Thread.sleep(1000);
         log.info("event2");
     }
