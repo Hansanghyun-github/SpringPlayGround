@@ -52,4 +52,14 @@ class EmptyServiceTest {
         assertThat(end - start).isGreaterThan(2000);
     }
 
+    @Test
+    void even_if_event_listener_throws_error_then_that_is_caught() throws Exception {
+        // when
+        assertThatCode(() -> emptyService.createEvent3(3))
+                .doesNotThrowAnyException();
+
+        // then
+        verify(myEventListener).errorEventListenerMethod(any());
+    }
+
 }

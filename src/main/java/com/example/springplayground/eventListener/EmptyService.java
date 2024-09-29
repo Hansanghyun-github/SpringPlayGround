@@ -28,4 +28,9 @@ public class EmptyService {
         throw new RuntimeException("error");
     }
 
+    public void createEvent3(Integer data) {
+        log.info("create event3");
+        applicationEventPublisher.publishEvent(new MyEvent3(data));
+    }
+
 }

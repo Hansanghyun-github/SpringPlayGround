@@ -21,4 +21,10 @@ public class MyEventListener {
         log.info("event2");
     }
 
+    @TransactionalEventListener
+    public void errorEventListenerMethod(MyEvent3 myEvent3) {
+        log.info("event data: {}", myEvent3.getData());
+        throw new RuntimeException("error");
+    }
+
 }
