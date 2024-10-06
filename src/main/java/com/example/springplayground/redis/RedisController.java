@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,6 +58,32 @@ public class RedisController {
     public Object getCacheObjects() {
         log.info("getCacheObjects() called");
         return cachingService.getObjects();
+    }
+
+    @PutMapping("/cache/hash")
+    public void setHash(@RequestParam("key") String key, @RequestParam("hashKey") String hashKey, @RequestParam("value") Integer value) {
+        Integer integer = redisService.setHash(key, hashKey, value);
+        log.info("setHash() called: {}", integer);
+    }
+
+    @PutMapping("/cache/hash/all")
+    public void setHashAll(@RequestParam("key") String key) {
+        redisService.setHashAll(key);
+    }
+
+    @GetMapping("/cache/hash")
+    public String getHash(@RequestParam("key") String key, @RequestParam("hashKey") String hashKey) {
+        return redisService.getHash(key, hashKey);
+    }
+
+    @GetMapping("/cache/hash/increment")
+    public void incrementHash(@RequestParam("key") String key, @RequestParam("hashKey") String hashKey, @RequestParam("value") Long value) {
+        redisService.incrementHash(key, hashKey, value);
+    }
+
+    @GetMapping("/cache/hash/decrement")
+    public void decrementHash(@RequestParam("key") String key, @RequestParam("hashKey") String hashKey, @RequestParam("value") Long value) {
+        redisService.decrementHash(key, hashKey, value);
     }
 
 }

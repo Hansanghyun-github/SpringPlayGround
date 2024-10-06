@@ -32,6 +32,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // embedded redis
+    implementation 'it.ozimov:embedded-redis:0.7.2'
 
     //JSP
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
