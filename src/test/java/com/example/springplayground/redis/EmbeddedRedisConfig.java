@@ -12,6 +12,7 @@ import java.io.IOException;
 public class EmbeddedRedisConfig {
     private final RedisServer redisServer;
 
+    // todo port 할당 문제
     public EmbeddedRedisConfig(@Value("${spring.data.redis.port}") int port) throws IOException {
         this.redisServer = new RedisServer(port);
     }
