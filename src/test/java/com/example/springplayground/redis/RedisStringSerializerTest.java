@@ -32,6 +32,16 @@ public class RedisStringSerializerTest {
         assertThat(customRedisTemplate.opsForValue().get("key")).isEqualTo("2");
     }
 
+    @Test
+    void StringSerializer는_String_변수만_넣을_수_있다() throws Exception {
+        // given
+        Long l = 1L;
+
+        // when // then
+        assertThatThrownBy(() -> customRedisTemplate.opsForValue().set("key", l))
+                .isInstanceOf(ClassCastException.class);
+    }
+
     @TestConfiguration
     static class StringSerializerConfig {
         @Bean(name = "customRedisTemplate")
