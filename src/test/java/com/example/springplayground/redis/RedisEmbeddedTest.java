@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -21,6 +23,28 @@ class RedisEmbeddedTest {
 
         // then
         assertThat(redisTemplate.opsForValue().get("key")).isEqualTo("value");
+    }
+
+    @Test
+    void 없는_데이터에_get_요청을하면_null이_반환된다() throws Exception {
+        // when
+        Object o = redisTemplate.opsForValue().get("key");
+        Object o1 = redisTemplate.opsForHash().get("key1", "field");
+
+        // then
+        assertThat(o).isNull();
+        assertThat(o1).isNull();
+    }
+
+    @Test
+    void 없는_데이터에_delete_요청을_해도_에러가_발생하지_않는다() throws Exception {
+        // when
+        Boolean delete = redisTemplate.delete("key");
+        Long deleted = redisTemplate.opsForHash().delete("key1", "field");
+
+        // then
+        assertThat(delete).isFalse();
+        assertThat(deleted).isEqualTo(0L);
     }
 
 }
