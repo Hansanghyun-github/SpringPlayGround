@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
-@Transactional
 @RequiredArgsConstructor
 public class TransactionalRedis {
     private final RedisTemplate<String, Object> customRedisTemplate;
@@ -21,10 +20,16 @@ public class TransactionalRedis {
         return customRedisTemplate.opsForValue().get(key);
     }
 
-    public Object setThrowError(String key, Object value) {
-        customRedisTemplate.opsForValue().set(key, value);
+    @Transactional
+    public void setAndThrowError(String key, Object value) {
+        customRedisTemplate.opsForValue().set(key+"1", value);
+        customRedisTemplate.opsForValue().set(key+"2", value);
         throw new RuntimeException("error");
     }
 
-
+    @Transactional
+    public void incrTwoKeys(String key1, String key2) {
+        customRedisTemplate.opsForValue().increment(key1, 1);
+        customRedisTemplate.opsForValue().increment(key2, 1);
+    }
 }

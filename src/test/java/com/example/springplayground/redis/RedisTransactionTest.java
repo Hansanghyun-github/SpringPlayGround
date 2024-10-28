@@ -1,6 +1,5 @@
 package com.example.springplayground.redis;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,17 +22,55 @@ public class RedisTransactionTest {
     RedisTemplate<String, Object> customRedisTemplate;
 
     @Test
-    void 트랜잭션이_적용되어_롤백이_된다() throws Exception {
+    void 에러가_발생하면_해당_명령이_취소된다() throws Exception {
         // when
         try{
-            transactionalRedis.setThrowError("key", "value");
+            transactionalRedis.setAndThrowError("key", "value");
         } catch (Exception e) {
             System.out.println(e);
         }
 
         // then
-        Object o = customRedisTemplate.opsForValue().get("key");
+        Object o = customRedisTemplate.opsForValue().get("key1");
         assertThat(o).isNull();
+
+        o = customRedisTemplate.opsForValue().get("key2");
+        assertThat(o).isNull();
+    }
+
+    @Test
+    void 다른_트랜잭션은_따로_실행된다() throws Exception {
+        // when
+        transactionalRedis.set("key", "value");
+        try{
+            transactionalRedis.setAndThrowError("key", "value");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        // then
+        Object o = customRedisTemplate.opsForValue().get("key1");
+        assertThat(o).isNull();
+
+        o = customRedisTemplate.opsForValue().get("key2");
+        assertThat(o).isNull();
+
+        o = customRedisTemplate.opsForValue().get("key");
+        assertThat(o).isEqualTo("value");
+    }
+
+    @Test
+    void 특정_명령이_실패해도_다른_명령은_실행된다() throws Exception {
+        // given
+        customRedisTemplate.opsForHash().put("key1", "field", "value");
+        customRedisTemplate.opsForValue().set("key2", "15");
+
+        // when
+        transactionalRedis.incrTwoKeys("key1", "key2"); // key1 는 hash 이므로 incr 이 불가능
+
+        // then
+        Object o = customRedisTemplate.opsForValue().get("key2");
+        assertThat(o).isEqualTo("16");
     }
 
     @TestConfiguration
