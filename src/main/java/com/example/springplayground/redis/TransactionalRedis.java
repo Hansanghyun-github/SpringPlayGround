@@ -32,4 +32,16 @@ public class TransactionalRedis {
         customRedisTemplate.opsForValue().increment(key1, 1);
         customRedisTemplate.opsForValue().increment(key2, 1);
     }
+
+    @Transactional
+    public Object transactionalSetAndGet(String key, String value) {
+        customRedisTemplate.opsForValue().set(key, value);
+        return customRedisTemplate.opsForValue().get(key);
+    }
+
+    @Transactional
+    public Object transactionalSetAndGetWithDifferentKeys(String key1, String value1, String key2) {
+        customRedisTemplate.opsForValue().set(key1, value1);
+        return customRedisTemplate.opsForValue().get(key2);
+    }
 }
