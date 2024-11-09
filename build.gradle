@@ -35,6 +35,9 @@ dependencies {
     // embedded redis
     implementation 'it.ozimov:embedded-redis:0.7.2'
 
+    // rabbitmq
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
     //JSP
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'jakarta.servlet:jakarta.servlet-api'
