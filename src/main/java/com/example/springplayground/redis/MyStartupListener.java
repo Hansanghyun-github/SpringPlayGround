@@ -1,13 +1,12 @@
-package com.example.springplayground.afterbooting;
+package com.example.springplayground.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.event.EventListener;
-import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component // todo move configuration to a separate class
 @RequiredArgsConstructor
 public class MyStartupListener {
     private final CacheManager cacheManager;
