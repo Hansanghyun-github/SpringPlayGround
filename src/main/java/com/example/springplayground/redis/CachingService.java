@@ -2,11 +2,9 @@ package com.example.springplayground.redis;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 @Slf4j
 public class CachingService {
     @Cacheable(value = "String")
