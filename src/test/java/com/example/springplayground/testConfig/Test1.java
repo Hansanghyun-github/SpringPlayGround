@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class Test1 extends TestSupport{
+public class Test1 extends TestSupportWithBeforeAll {
 
     @Test
     @Order(1)

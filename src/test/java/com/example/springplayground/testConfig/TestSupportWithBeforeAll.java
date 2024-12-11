@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class TestSupport {
+public abstract class TestSupportWithBeforeAll {
 
     static AtomicInteger counter = new AtomicInteger(0);
 
